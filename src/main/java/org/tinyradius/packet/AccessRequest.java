@@ -52,6 +52,7 @@ public class AccessRequest extends RadiusPacket {
     // Vendor Specific Attributes
     private static final int MS_CHAP_CHALLENGE = 11;
     private static final int MS_CHAP2_RESPONSE = 25;
+    private static final int MS_CHAP_RESPONSE = 1;
 
     /**
      * @param dictionary    custom dictionary to use
@@ -195,6 +196,9 @@ public class AccessRequest extends RadiusPacket {
 
         RadiusAttribute msChapChallenge = getAttribute(MICROSOFT, MS_CHAP_CHALLENGE);
         RadiusAttribute msChap2Response = getAttribute(MICROSOFT, MS_CHAP2_RESPONSE);
+        if (msChap2Response == null){
+             msChap2Response = getAttribute(MICROSOFT, MS_CHAP_RESPONSE);
+        }
         if (msChapChallenge != null && msChap2Response != null) {
             setAuthProtocol(AUTH_MS_CHAP_V2);
             this.chapPassword = msChap2Response.getValue();
